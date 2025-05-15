@@ -1,4 +1,4 @@
-# DonInf2 Starting Code
+# DonInf2 Starting Code LAMA
 This some boiler plate code for the DonInf2 course project. Use this code as starting point for your project.
 
 ## Setup

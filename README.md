@@ -7,7 +7,7 @@ First you need to get a copy of this repository, the best approach is to fork th
 **Only one team member should perform that**
 - Login to your github account
 - At the top right of the github window use the **Fork** button > **Create new fork**
-- Name it <M53-X-groupname> according to your class and group
+- Name it <M53-2-LAMA> according to your class and group
 - Share the repository with your group members
     - Go to Settings
     - Collaborators and team

@@ -17,6 +17,11 @@ public class Map implements IPrintable, ICommand {
         throw new UnsupportedOperationException("Unimplemented method 'isGrayedOut'");
     }
 
+    @Override
+    public void execute(String[] args, Game game) {
+
+    }
+
     /*public void print() {
         String result = Array2Dprinter.print2DArray(map, playerRow, playerCol);
         System.out.println(result);

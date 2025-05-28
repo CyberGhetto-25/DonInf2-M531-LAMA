@@ -49,6 +49,8 @@ public class Location implements IPrintable {
         return description;
     }
 
+    public String getName(){return name;}
+
     public void lock() {
         this.isLocked = true;
     }

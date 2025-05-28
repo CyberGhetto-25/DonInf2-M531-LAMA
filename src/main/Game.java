@@ -22,6 +22,18 @@ public class Game {
             }
         }
 
+        map[0][0] = new Location("Place du midi", "Une large esplanade sur laquelle se retrouvent les pires mercenaires", false, false, false);
+        map[0][1] = new Location("Viseu", "La capitale du royaume de la reine Léa", false, false, false);
+        map[0][2] = new Location("Cactus Valley", "Un jardin de cactus dans lequel seuls les vrais guerriers oseront s'y aventurer.", true, false, false);
+
+        map[1][0] = new Location("Le volcan Pichinscha", "Le volcan le plus haut de notre planète.", false, false, false);
+        map[1][1] = new Location("La moitié du monde", "Une ville qui coupe la terre en deux.", false, false, false);
+        map[1][2] = new Location("La playa del Sol", "Vous voilé arrivé en bord de mer, regardez autour de vous pour y accéder.", true, false, false);
+
+        map[2][0] = new Location("Pradoumaye", "Quartier d'un village montagneux dont les habitans sont réticents à la guerre", false, false, false);
+        map[2][1] = new Location("Zampelet", "Une route abrupte qui ne laisse pas de répit aux joueurs qui s'y rendent.", false, false, false);
+        map[2][2] = new Location("Zone industrielle de Redin", "Vaste zone dans lesquels ravers et joueurs se rencontrent.", true, false, false);
+
         map[0][1].lock(); // Exemple : une zone verrouillée
         getCurrentLocation().setPlayerHere(true);
         getCurrentLocation().setVisited(true);

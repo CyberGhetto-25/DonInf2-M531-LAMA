@@ -18,21 +18,8 @@ public class Map implements IPrintable, ICommand {
     }
 
     @Override
-    public void execute(String[] args, Game game) {
+    public void execute(String[] args, Game game, Player player) {
 
     }
-
-    /*public void print() {
-        String result = Array2Dprinter.print2DArray(map, playerRow, playerCol);
-        System.out.println(result);
-    }
-
-    public int getPlayerRow() {
-        return playerRow;
-    }
-
-    public int getPlayerCol() {
-        return playerCol;
-    }*/
 
 }

@@ -10,12 +10,15 @@ public class Game {
     private int playerRow = 1;
     private int playerCol = 1;
     private CommandManager commandManager;
+    private Player player; // Add this line
+
 
     public Game() {
         System.out.println("Initializing game...");
         commandManager = new CommandManager();
 
-        // Init map
+
+        // map
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
                 map[r][c] = new Location("Zone " + r + "," + c, "You are in zone [" + r + "," + c + "]", false, false, false);
@@ -34,7 +37,9 @@ public class Game {
         map[2][1] = new Location("Zampelet", "Une route abrupte qui ne laisse pas de répit aux joueurs qui s'y rendent.", false, false, false);
         map[2][2] = new Location("Zone industrielle de Redin", "Vaste zone dans lesquels ravers et joueurs se rencontrent.", true, false, false);
 
-        map[0][1].lock(); // Exemple : une zone verrouillée
+        map[1][0].addItem(new KeyItem("Donjon Key", "Clé rouillée pour le donjon.", "La playa del Sol"));
+        map[2][0].addItem(new KeyItem("Cellule Key", "Clé en cuivre pour la cellule.", "Zone industrielle de Redin"));
+
         getCurrentLocation().setPlayerHere(true);
         getCurrentLocation().setVisited(true);
 
@@ -43,26 +48,36 @@ public class Game {
         commandManager.registerCommand("look", new LookCommand());
         commandManager.registerCommand("help", new HelpCommand());
         commandManager.registerCommand("map", new MapCommand());
+        commandManager.registerCommand("take", new TakeCommand());
+        commandManager.registerCommand("use", new UseCommand());
+
+        this.player = new Player(getCurrentLocation());
     }
 
     public void run() {
+         // boulce jeu principale
         Scanner scanner = new Scanner(System.in);
         String input;
         System.out.println("Type 'help' to see available commands.");
+
         while (true) {
             System.out.print("> ");
             input = scanner.nextLine();
             if (input.equalsIgnoreCase("quit")) break;
 
-            commandManager.execute(input, this);
+            commandManager.execute(input, this, player); // <-- on le passe ici
         }
+
         System.out.println("Thanks for playing!");
+    }
+    public Player getPlayer() {
+        return player; // Add this getter method
     }
 
     public void movePlayer(String direction) {
         int newRow = playerRow;
         int newCol = playerCol;
-
+// mise à jour coordonnées
         switch (direction) {
             case "north" -> newRow--;
             case "south" -> newRow++;
@@ -84,13 +99,13 @@ public class Game {
             System.out.println("Zone locked.");
             return;
         }
-
+// mise à jour position player
         map[playerRow][playerCol].setPlayerHere(false);
         playerRow = newRow;
         playerCol = newCol;
         target.setPlayerHere(true);
         target.setVisited(true);
-        System.out.println(target.getDescription());
+        System.out.println(target.getName());
     }
 
     public void printMap() {

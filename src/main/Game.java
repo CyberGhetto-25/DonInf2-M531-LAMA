@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Game {
 
-    private Location[][] map = new Location[3][3];
+    private Location[][] map = new Location[4][3];
     private int playerRow = 1;
     private int playerCol = 1;
     private CommandManager commandManager;
@@ -19,26 +19,35 @@ public class Game {
 
 
         // map
-        for (int r = 0; r < 3; r++) {
+        for (int r = 0; r < 4; r++) {
             for (int c = 0; c < 3; c++) {
                 map[r][c] = new Location("Zone " + r + "," + c, "You are in zone [" + r + "," + c + "]", false, false, false);
             }
         }
 
-        map[0][0] = new Location("Place du midi", "Une large esplanade sur laquelle se retrouvent les pires mercenaires", false, false, false);
-        map[0][1] = new Location("Viseu", "La capitale du royaume de la reine Léa", false, false, false);
-        map[0][2] = new Location("Cactus Valley", "Un jardin de cactus dans lequel seuls les vrais guerriers oseront s'y aventurer.", true, false, false);
+// Row 0
+        map[0][0] = new Location("Place du midi", "A large esplanade where the worst mercenaries gather.", false, false, false);
+        map[0][1] = new Location("Viseu", "The capital of Queen Léa's kingdom.", false, false, false);
+        map[0][2] = new Location("Cactus Valley", "A cactus garden only the true warriors dare to explore.", false, false, false);
 
-        map[1][0] = new Location("Le volcan Pichinscha", "Le volcan le plus haut de notre planète.", false, false, false);
-        map[1][1] = new Location("La moitié du monde", "Une ville qui coupe la terre en deux.", false, false, false);
-        map[1][2] = new Location("La playa del Sol", "Vous voilé arrivé en bord de mer, regardez autour de vous pour y accéder.", true, false, false);
+// Row 1
+        map[1][0] = new Location("Mount Pichincha", "The highest volcano on our planet.", false, false, false);
+        map[1][1] = new Location("Middle of the World", "A city that splits the Earth in two.", false, false, false);
+        map[1][2] = new Location("Playa del sol", "You've reached the seashore, look around to access it.", true, false, false);
 
-        map[2][0] = new Location("Pradoumaye", "Quartier d'un village montagneux dont les habitans sont réticents à la guerre", false, false, false);
-        map[2][1] = new Location("Zampelet", "Une route abrupte qui ne laisse pas de répit aux joueurs qui s'y rendent.", false, false, false);
-        map[2][2] = new Location("Zone industrielle de Redin", "Vaste zone dans lesquels ravers et joueurs se rencontrent.", true, false, false);
+// Row 2
+        map[2][0] = new Location("Pradoumaye", "A mountainous village district whose residents are reluctant to go to war.", false, false, false);
+        map[2][1] = new Location("Zampelet", "A steep road that gives no rest to players who venture there.", false, false, false);
+        map[2][2] = new Location("Redin Industrial Zone", "A vast area where ravers and players gather.", true, false, false);
 
-        map[1][0].addItem(new KeyItem("Donjon Key", "Clé rouillée pour le donjon.", "La playa del Sol"));
-        map[2][0].addItem(new KeyItem("Cellule Key", "Clé en cuivre pour la cellule.", "Zone industrielle de Redin"));
+// Row 3
+        map[3][0] = new Location("Forgotten Swamps", "Humid lands inhabited by mysterious creatures and strange mist.", false, false, false);
+        map[3][1] = new Location("Whispering Forest", "A dense forest where the trees seem to whisper ancient secrets.", false, false, false);
+        map[3][2] = new Location("Crystal Labyrinth", "A maze with shimmering walls that defies all logic.", false, false, false);
+
+// Adding key items
+        map[1][0].addItem(new KeyItem("Beach Key", "Rusty key for the beach.", "Playa del sol"));
+        map[2][0].addItem(new KeyItem("Redin Key", "Copper key for the industrial zone.", "Redin Industrial Zone"));
 
         getCurrentLocation().setPlayerHere(true);
         getCurrentLocation().setVisited(true);
@@ -89,7 +98,7 @@ public class Game {
             }
         }
 
-        if (newRow < 0 || newRow >= 3 || newCol < 0 || newCol >= 3) {
+        if (newRow < 0 || newRow >= 4 || newCol < 0 || newCol >= 3) {
             System.out.println("Impossible to move there.");
             return;
         }

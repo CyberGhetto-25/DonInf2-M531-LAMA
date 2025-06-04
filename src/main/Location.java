@@ -13,14 +13,26 @@ public class Location implements IPrintable {
     private boolean visited;
     private boolean playerIsHere;
     private List<Item> items = new ArrayList<>();
+    private Riddle riddle;
 
-    public Location (String name, String description, boolean isLocked, boolean visited, boolean playerIsHere) {
+    public Location (String name, String description, boolean isLocked, boolean visited, boolean playerIsHere, Riddle riddle) {
         this.name = name;
         this.description = description;
         this.isLocked = isLocked;
         this.visited = visited;
         this.playerIsHere = playerIsHere;
+        this.riddle = null;
 
+    }
+
+    // NOUVEAU : Setter pour l'énigme
+    public void setRiddle(Riddle riddle) {
+        this.riddle = riddle;
+    }
+
+    // NOUVEAU : Getter pour l'énigme
+    public Riddle getRiddle() {
+        return riddle;
     }
 
         // Pour déplacer le joueur

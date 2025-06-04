@@ -21,29 +21,29 @@ public class Game {
         // map
         for (int r = 0; r < 4; r++) {
             for (int c = 0; c < 3; c++) {
-                map[r][c] = new Location("Zone " + r + "," + c, "You are in zone [" + r + "," + c + "]", false, false, false);
+                map[r][c] = new Location("Zone " + r + "," + c, "You are in zone [" + r + "," + c + "]", false, false, false, null);
             }
         }
 
 // Row 0
-        map[0][0] = new Location("Place du midi", "A large esplanade where the worst mercenaries gather.", false, false, false);
-        map[0][1] = new Location("Viseu", "The capital of Queen Léa's kingdom.", false, false, false);
-        map[0][2] = new Location("Cactus Valley", "A cactus garden only the true warriors dare to explore.", false, false, false);
+        map[0][0] = new Location("Place du midi", "A large esplanade where the worst mercenaries gather.", false, false, false, null);
+        map[0][1] = new Location("Viseu", "The capital of Queen Léa's kingdom.", false, false, false, null);
+        map[0][2] = new Location("Cactus Valley", "A cactus garden only the true warriors dare to explore.", false, false, false, null);
 
 // Row 1
-        map[1][0] = new Location("Mount Pichincha", "The highest volcano on our planet.", false, false, false);
-        map[1][1] = new Location("Middle of the World", "A city that splits the Earth in two.", false, false, false);
-        map[1][2] = new Location("Playa del sol", "You've reached the seashore, look around to access it.", true, false, false);
+        map[1][0] = new Location("Mount Pichincha", "The highest volcano on our planet.", false, false, false, null);
+        map[1][1] = new Location("Middle of the World", "A city that splits the Earth in two.", false, false, false, null);
+        map[1][2] = new Location("Playa del sol", "You've reached the seashore, look around to access it.", true, false, false, null);
 
 // Row 2
-        map[2][0] = new Location("Pradoumaye", "A mountainous village district whose residents are reluctant to go to war.", false, false, false);
-        map[2][1] = new Location("Zampelet", "A steep road that gives no rest to players who venture there.", false, false, false);
-        map[2][2] = new Location("Redin Industrial Zone", "A vast area where ravers and players gather.", true, false, false);
+        map[2][0] = new Location("Pradoumaye", "A mountainous village district whose residents are reluctant to go to war.", false, false, false, null);
+        map[2][1] = new Location("Zampelet", "A steep road that gives no rest to players who venture there.", false, false, false, null);
+        map[2][2] = new Location("Redin Industrial Zone", "A vast area where ravers and players gather.", true, false, false, null);
 
 // Row 3
-        map[3][0] = new Location("Forgotten Swamps", "Humid lands inhabited by mysterious creatures and strange mist.", false, false, false);
-        map[3][1] = new Location("Whispering Forest", "A dense forest where the trees seem to whisper ancient secrets.", false, false, false);
-        map[3][2] = new Location("Crystal Labyrinth", "A maze with shimmering walls that defies all logic.", false, false, false);
+        map[3][0] = new Location("Forgotten Swamps", "Humid lands inhabited by mysterious creatures and strange mist.", false, false, false, null);
+        map[3][1] = new Location("Whispering Forest", "A dense forest where the trees seem to whisper ancient secrets.", false, false, false, null);
+        map[3][2] = new Location("Crystal Labyrinth", "A maze with shimmering walls that defies all logic.", false, false, false, null);
 
 // Adding key items
         map[1][0].addItem(new KeyItem("Beach Key", "Rusty key for the beach.", "Playa del sol"));
@@ -52,6 +52,19 @@ public class Game {
         getCurrentLocation().setPlayerHere(true);
         getCurrentLocation().setVisited(true);
 
+        // NOUVEAU : Définition de l'énigme concrète pour la "Place du midi" (map[0][0])
+        // Création de l'objet qui sera la récompense
+        Item rewardForRiddle = new Item("Ancient Coin", "Une pièce rare avec des symboles inconnus.");
+
+        // Création de l'énigme
+        Riddle firstRiddle = new Riddle(
+                "Je suis une ville qui coupe la terre en deux. Qui suis-je ?", // La question
+                "La moitié du monde", // La réponse exacte attendue
+                rewardForRiddle // L'objet que le joueur recevra s'il trouve la bonne réponse
+        );
+
+        map[0][0].setRiddle(firstRiddle);
+
         // Register commands
         commandManager.registerCommand("move", new MoveCommand());
         commandManager.registerCommand("look", new LookCommand());
@@ -59,6 +72,7 @@ public class Game {
         commandManager.registerCommand("map", new MapCommand());
         commandManager.registerCommand("take", new TakeCommand());
         commandManager.registerCommand("use", new UseCommand());
+        commandManager.registerCommand("solve", new SolveCommand());
 
         this.player = new Player(getCurrentLocation());
     }

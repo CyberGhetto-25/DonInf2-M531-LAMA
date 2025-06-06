@@ -93,4 +93,18 @@ public class Location implements IPrintable {
         this.isLocked = true;
     }
 
+    public Location isAdjacentLocationUnlockable(Game game, KeyItem key){
+
+        ArrayList<Location> adjacents = game.getAdjacent(this);
+
+        for(Location location: adjacents){
+            if(key.getTargetLocationName().equalsIgnoreCase(location.getName())
+                    && location.isLocked()){
+                return location;
+            }
+        }
+
+        return null;
+    }
+
 }

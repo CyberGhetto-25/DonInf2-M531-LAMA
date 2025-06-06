@@ -2,11 +2,13 @@ package main;
 
 import utils.Array2Dprinter;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
 
     private Location[][] map = new Location[4][3];
+
     private int playerRow = 1;
     private int playerCol = 1;
     private CommandManager commandManager;
@@ -54,16 +56,19 @@ public class Game {
 
         // NOUVEAU : Définition de l'énigme concrète pour la "Place du midi" (map[0][0])
         // Création de l'objet qui sera la récompense
-        Item rewardForRiddle = new Item("Ancient Coin", "Une pièce rare avec des symboles inconnus.");
+        Item rewardForRiddle = new Item("Ancient Coin", "A rare coin with unknown symbols on it.");
 
         // Création de l'énigme
         Riddle firstRiddle = new Riddle(
-                "Je suis une ville qui coupe la terre en deux. Qui suis-je ?", // La question
-                "La moitié du monde", // La réponse exacte attendue
+                "I am a town that splits the Earth in two. What am I?", // La question
+                "Middle of the World", // La réponse exacte attendue
                 rewardForRiddle // L'objet que le joueur recevra s'il trouve la bonne réponse
         );
 
         map[0][0].setRiddle(firstRiddle);
+
+        Item teleportCrystal = new Item("Teleport Crystal", "A powerful crystal blinking with arcane light.");
+        map[3][2].addItem(teleportCrystal);
 
         // Register commands
         commandManager.registerCommand("move", new MoveCommand());
@@ -73,6 +78,7 @@ public class Game {
         commandManager.registerCommand("take", new TakeCommand());
         commandManager.registerCommand("use", new UseCommand());
         commandManager.registerCommand("solve", new SolveCommand());
+        commandManager.registerCommand("inventory", new InventoryCommand());
 
         this.player = new Player(getCurrentLocation());
     }
@@ -87,6 +93,13 @@ public class Game {
             System.out.print("> ");
             input = scanner.nextLine();
             if (input.equalsIgnoreCase("quit")) break;
+
+            boolean commandAlreadyRegistered = commandManager.getCommands().containsKey("teleport");
+            boolean playerPossesesCrystal = player.hasItem("Teleport Crystal");
+
+            if(!commandAlreadyRegistered && playerPossesesCrystal){
+                commandManager.registerCommand("teleport",new TeleportCommand());
+            }
 
             commandManager.execute(input, this, player); // <-- on le passe ici
         }
@@ -142,6 +155,82 @@ public class Game {
 
     public CommandManager getCommandManager() {
         return commandManager;
+    }
+
+    public ArrayList<Location> getAdjacent(Location location) {
+        int row = -1, col = -1;
+
+        // Rechercher la position du Location dans la map
+        for (int r = 0; r < map.length; r++) {
+            for (int c = 0; c < map[0].length; c++) {
+                if (map[r][c].equals(location)) {
+                    row = r;
+                    col = c;
+                    break;
+                }
+            }
+        }
+
+        ArrayList<Location> adjacent = new ArrayList<>();
+
+        if (row == -1 || col == -1) {
+            return null; // non trouvé
+        }
+
+        for (int i = 0; i < 4; i++) {
+            switch (i) {
+                case 0 -> { // north
+                    if (row > 0) adjacent.add(map[row - 1][col]);
+                }
+                case 1 -> { // south
+                    if (row < map.length - 1) adjacent.add(map[row + 1][col]);
+                }
+                case 2 -> { // east
+                    if (col < map[0].length - 1) adjacent.add(map[row][col + 1]);
+                }
+                case 3 -> { // west
+                    if (col > 0) adjacent.add(map[row][col - 1]);
+                }
+            }
+        }
+
+        return adjacent;
+    }
+
+    public Location getLocationByName(String name){
+        for (int r = 0; r < map.length; r++) {
+            for (int c = 0; c < map[0].length; c++) {
+                if (map[r][c].getName().equals(name)) {
+                    return map[r][c];
+                }
+            }
+        }
+        return null;
+    }
+
+    public int getLocationCol(Location location){
+        for(int i = 0;i < map[0].length; i++){
+            if(map[0][i].getName().equals(location.getName())) return i;
+            if(map[1][i].getName().equals(location.getName())) return i;
+            if(map[2][i].getName().equals(location.getName())) return i;
+        }
+        return -1;
+    }
+    public int getLocationRow(Location location){
+        for(int i = 0;i < map.length; i++){
+            if(map[i][0].getName().equals(location.getName())) return i;
+            if(map[i][1].getName().equals(location.getName())) return i;
+            if(map[i][2].getName().equals(location.getName())) return i;
+        }
+        return -1;
+    }
+
+    public void setPlayerCol(int playerCol) {
+        this.playerCol = playerCol;
+    }
+
+    public void setPlayerRow(int playerRow) {
+        this.playerRow = playerRow;
     }
 
 }

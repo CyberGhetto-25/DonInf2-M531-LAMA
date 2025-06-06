@@ -6,6 +6,10 @@ public class CommandManager {
 
     private final Map<String, ICommand> commands = new HashMap<>();
 
+    public Map<String, ICommand> getCommands() {
+        return commands;
+    }
+
     public void registerCommand(String name, ICommand command) {
         commands.put(name, command);
     }

@@ -200,7 +200,7 @@ public class Game {
     public Location getLocationByName(String name){
         for (int r = 0; r < map.length; r++) {
             for (int c = 0; c < map[0].length; c++) {
-                if (map[r][c].getName().equals(name)) {
+                if (map[r][c].getName().equalsIgnoreCase(name)) {
                     return map[r][c];
                 }
             }

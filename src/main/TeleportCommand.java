@@ -19,7 +19,10 @@ public class TeleportCommand implements ICommand {
         String locationName = locationNameBuilder.toString();
         Location teleportLocation = game.getLocationByName(locationName);
 
-        if(teleportLocation.isGrayedOut()){
+        if(teleportLocation == null){
+            System.out.println("The crystal doesn't respond.");
+        }
+        else if(teleportLocation.isGrayedOut()){
             System.out.println("The crystal turns red as if angered.");
         }else{
             System.out.println("The crystal starts to glow intensely.");

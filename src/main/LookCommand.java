@@ -9,7 +9,7 @@ public class LookCommand implements ICommand {
         System.out.println("You are in: " + loc.getName());
         System.out.println(loc.getDescription());
 
-        // vérifie items dans la location et les affichent
+        // Afficher les objets dans la zone
         List<Item> itemsInLocation = loc.getItems();
         if (itemsInLocation.isEmpty()) {
             System.out.println("There are no items here.");
@@ -18,6 +18,16 @@ public class LookCommand implements ICommand {
             for (Item item : itemsInLocation) {
                 System.out.println("- " + item.getName() + ": " + item.getDescription());
             }
+        }
+
+        // NOUVEAU : Afficher l'énigme si présente et non résolue
+        Riddle riddle = loc.getRiddle();
+        if (riddle != null && !riddle.isSolved()) {
+            System.out.println("\nThere's a riddle here!");
+            System.out.println("Riddle: " + riddle.getQuestion());
+            System.out.println("You can try to solve it using the 'solve' command.");
+        } else if (riddle != null && riddle.isSolved()) {
+            System.out.println("\nThe riddle here has already been solved.");
         }
     }
 }
